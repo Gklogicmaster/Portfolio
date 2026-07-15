@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>R K Gaurav Kumar | Software Engineer & AI/ML Enthusiast</title>
+<meta name="description" content="Portfolio of R K Gaurav Kumar — Computer Science Engineering student, AI/ML & Data Science enthusiast, full-stack developer." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-primary:#081B3A;
+    --bg-secondary:#06152F;
+    --accent:#00E5FF;
+    --accent-2:#00C8FF;
+    --text-primary:#FFFFFF;
+    --text-secondary:#C4CAD6;
+    --text-muted:#8A94A6;
+    --border-c: rgba(0,229,255,0.2);
+    --glow: rgba(0,229,255,0.35);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 50%, #031025 100%);
+    background-attachment:fixed;
+    color:var(--text-secondary);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,.font-display{font-family:'Space Grotesk',sans-serif;}
+  .cyan{color:var(--accent);}
+  a{text-decoration:none; color:inherit;}
+  ::selection{background:var(--accent); color:var(--bg-secondary);}
+
+  /* ambient glows */
+  .glow-orb{position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; opacity:0.25; z-index:0;}
+
+  /* NAVBAR */
+  #navbar{
+    position:fixed; top:0; left:0; width:100%; z-index:100;
+    padding:18px 6vw; display:flex; align-items:center; justify-content:space-between;
+    transition:background .35s ease, backdrop-filter .35s ease, border-color .35s ease;
+    border-bottom:1px solid transparent;
+  }
+  #navbar.scrolled{
+    background:rgba(6,21,47,0.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border-c);
+  }
+  .logo{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.3rem; color:#fff;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex; gap:2rem; list-style:none;}
+  .nav-links a{
+    font-size:0.92rem; font-weight:500; color:var(--text-secondary);
+    position:relative; padding:4px 0; transition:color .25s ease;
+  }
+  .nav-links a:hover, .nav-links a.active{color:var(--accent); text-shadow:0 0 12px var(--glow);}
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-2px; height:1px; width:0;
+    background:var(--accent); transition:width .25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  #hamburger{display:none; flex-direction:column; gap:5px; cursor:pointer; z-index:110;}
+  #hamburger span{width:26px; height:2px; background:#fff; transition:.3s;}
+
+  #mobile-menu{
+    position:fixed; inset:0; background:rgba(6,21,47,0.98); backdrop-filter:blur(10px);
+    z-index:105; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem;
+    transform:translateY(-100%); transition:transform .4s ease;
+  }
+  #mobile-menu.open{transform:translateY(0);}
+  #mobile-menu a{font-size:1.4rem; font-weight:600; color:#fff;}
+  #mobile-menu a:hover{color:var(--accent);}
+
+  /* SECTION generic */
+  section{position:relative; padding:110px 6vw; z-index:1;}
+  .section-inner{max-width:1200px; margin:0 auto;}
+  .eyebrow{
+    color:var(--accent); font-size:0.8rem; letter-spacing:3px; text-transform:uppercase; font-weight:600; margin-bottom:.6rem;
+  }
+  .section-title{font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:#fff; margin-bottom:2.8rem;}
+  .reveal{opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  .reveal-left{opacity:0; transform:translateX(-40px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal-left.visible{opacity:1; transform:translateX(0);}
+  .reveal-right{opacity:0; transform:translateX(40px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal-right.visible{opacity:1; transform:translateX(0);}
+
+  /* HERO */
+  #hero{min-height:100vh; display:flex; align-items:center; padding-top:120px;}
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:3rem; align-items:center; width:100%;}
+  .hello-text{font-size:1.2rem; color:var(--text-secondary); margin-bottom:0.4rem;}
+  .hero-name{font-size:clamp(2.2rem,5.5vw,3.6rem); font-weight:700; color:#fff; line-height:1.1; margin-bottom:.6rem;}
+  .hero-role{font-size:clamp(1.2rem,2.6vw,1.6rem); font-weight:600; margin-bottom:1.3rem; min-height:2.2rem;}
+  .cursor{display:inline-block; width:2px; background:var(--accent); margin-left:2px; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .hero-desc{max-width:560px; line-height:1.7; margin-bottom:1.8rem; font-size:1rem;}
+
+  .social-row{display:flex; gap:14px; margin-bottom:2.2rem;}
+  .social-icon{
+    width:44px; height:44px; border-radius:50%; border:2px solid var(--accent);
+    display:flex; align-items:center; justify-content:center; color:var(--accent);
+    background:transparent; transition:all .3s ease; position:relative;
+  }
+  .social-icon svg{width:19px; height:19px; fill:currentColor;}
+  .social-icon:hover{
+    background:var(--accent); color:var(--bg-secondary);
+    transform:translateY(-3px) scale(1.08);
+    box-shadow:0 0 15px var(--glow);
+  }
+  .social-icon .tooltip{
+    position:absolute; bottom:120%; left:50%; transform:translateX(-50%);
+    background:var(--bg-secondary); color:#fff; font-size:0.7rem; padding:3px 8px; border-radius:6px;
+    white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s ease; border:1px solid var(--border-c);
+  }
+  .social-icon:hover .tooltip{opacity:1;}
+
+  .cv-btn{
+    display:inline-block; background:var(--accent); color:var(--bg-secondary);
+    border-radius:999px; padding:13px 30px; font-weight:600; font-size:0.95rem;
+    box-shadow:0 0 20px var(--glow); transition:all .3s ease;
+  }
+  .cv-btn:hover{box-shadow:0 0 32px var(--glow); transform:scale(1.04);}
+
+  .profile-wrap{display:flex; justify-content:center; align-items:center;}
+  .profile-frame{
+    position:relative; width:400px; height:400px; border-radius:50%;
+    border:10px solid var(--accent);
+    box-shadow:0 0 20px rgba(0,229,255,0.5), 0 0 60px rgba(0,229,255,0.2);
+    animation:float 4s ease-in-out infinite;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.02); overflow:hidden;
+  }
+  .profile-frame img{width:100%; height:100%; object-fit:cover; object-position:center; border-radius:50%;}
+  .profile-placeholder{color:var(--text-muted); font-size:0.9rem; text-align:center; padding:1rem;}
+  @keyframes float{0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);}}
+  @media(max-width:640px){.profile-frame{width:240px; height:240px; border-width:7px;}}
+
+  /* ABOUT */
+  .about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+
+.about-visual {
+  border: 1px solid var(--border-c);
+  border-radius: 20px;
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.03);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-muted);
+  font-size: 0.9rem;
+
+  box-shadow: inset 0 0 40px rgba(0, 229, 255, 0.05);
+
+  /* Important */
+  overflow: hidden;
+}
+
+/* ADD THIS */
+.about-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 20px;
+}
+
+.about-text p {
+  margin-bottom: 1.1rem;
+  line-height: 1.8;
+}
+
+  /* SKILLS */
+  .skills-category{margin-bottom:2.6rem;}
+  .skills-category h3{color:#fff; font-size:1.05rem; margin-bottom:1.1rem; font-weight:600;}
+  .skills-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:14px;}
+  .skill-card{
+    background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:14px;
+    padding:18px 10px; display:flex; flex-direction:column; align-items:center; gap:10px;
+    transition:all .3s ease; cursor:default;
+  }
+  .skill-card:hover{transform:translateY(-5px); border-color:var(--accent); box-shadow:0 8px 24px rgba(0,229,255,0.15);}
+  .skill-card img{width:32px; height:32px; transition:transform .3s ease;}
+  .skill-card:hover img{transform:scale(1.1);}
+  .skill-card span{font-size:0.78rem; color:var(--text-secondary); text-align:center;}
+
+  /* EXPERIENCE timeline */
+  .timeline{position:relative; padding-left:2.2rem; border-left:2px solid var(--border-c);}
+  .timeline-item{position:relative; margin-bottom:2.8rem;}
+  .timeline-item::before{
+    content:''; position:absolute; left:-2.36rem; top:4px; width:14px; height:14px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 12px var(--glow);
+  }
+  .timeline-card{background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:16px; padding:1.6rem;}
+  .timeline-card h3{color:#fff; font-size:1.1rem; margin-bottom:.2rem;}
+  .timeline-card .meta{color:var(--accent); font-size:0.85rem; margin-bottom:.9rem;}
+  .timeline-card ul{padding-left:1.2rem; margin-bottom:1rem;}
+  .timeline-card li{margin-bottom:.4rem; line-height:1.6; font-size:0.92rem;}
+  .tech-pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1rem;}
+  .tech-pill{
+    font-size:0.72rem; padding:4px 12px; border-radius:999px; border:1px solid var(--border-c); color:var(--text-secondary);
+  }
+  .btn-outline{
+    display:inline-block; font-size:0.82rem; padding:8px 16px; border-radius:999px; border:1px solid var(--accent);
+    color:var(--accent); margin-right:10px; transition:all .25s ease;
+  }
+  .btn-outline:hover{background:var(--accent); color:var(--bg-secondary); box-shadow:0 0 15px var(--glow);}
+
+  /* PROJECTS */
+  .projects-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.8rem;}
+  .project-card{
+    background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:18px; overflow:hidden;
+    transition:all .35s ease;
+  }
+  .project-card:hover{transform:translateY(-6px); border-color:var(--accent); box-shadow:0 12px 30px rgba(0,229,255,0.15);}
+  .project-img{
+    height:190px; background:linear-gradient(135deg,#0A2450,#061529); display:flex; align-items:center; justify-content:center;
+    color:var(--text-muted); font-size:0.85rem; overflow:hidden;
+  }
+  .project-img img{width:100%; height:100%; object-fit:cover;}
+  .project-body{padding:1.5rem;}
+  .project-body h3{color:#fff; font-size:1.15rem; margin-bottom:.6rem;}
+  .project-body p{font-size:0.9rem; line-height:1.6; margin-bottom:1rem;}
+  .badge{
+    display:inline-block; font-size:0.7rem; padding:3px 10px; border-radius:999px; margin-bottom:.8rem;
+    background:rgba(0,229,255,0.1); color:var(--accent); border:1px solid var(--border-c);
+  }
+
+  /* ACHIEVEMENTS */
+  .ach-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.6rem;}
+  .ach-card{
+    background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:16px; padding:1.8rem;
+    transition:all .3s ease;
+  }
+  .ach-card:hover{transform:scale(1.02); border-color:var(--accent);}
+  .ach-icon{
+    width:48px; height:48px; border-radius:12px; background:rgba(0,229,255,0.1); color:var(--accent);
+    display:flex; align-items:center; justify-content:center; margin-bottom:1rem;
+  }
+  .ach-card h3{color:#fff; margin-bottom:.6rem; font-size:1.05rem;}
+  .ach-card p{font-size:0.88rem; line-height:1.6;}
+
+  /* CERTIFICATIONS */
+  .cert-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem;}
+  .cert-card{
+    background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:16px; padding:1.5rem;
+    transition:all .3s ease;
+  }
+  .cert-card:hover{border-color:var(--accent); transform:translateY(-4px);}
+  .cert-card h3{color:#fff; font-size:1rem; margin-bottom:.3rem;}
+  .cert-card .org{font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem;}
+
+  /* EDUCATION reuses timeline */
+
+  /* ACTIVITIES */
+  .act-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.6rem;}
+  .act-card{background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:16px; padding:1.6rem;}
+  .act-card h3{color:#fff; margin-bottom:.6rem; font-size:1.02rem;}
+  .act-card p{font-size:0.88rem; line-height:1.6;}
+
+  /* CONTACT */
+  .contact-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:3rem;}
+  .contact-headline{font-size:clamp(1.6rem,3.4vw,2.3rem); color:#fff; font-weight:700; margin-bottom:1rem; line-height:1.25;}
+  .contact-form{display:flex; flex-direction:column; gap:1rem;}
+  .contact-form input, .contact-form textarea{
+    background:rgba(255,255,255,0.03); border:1px solid var(--border-c); border-radius:10px; padding:12px 14px;
+    color:#fff; font-family:'Inter',sans-serif; transition:border-color .25s ease;
+  }
+  .contact-form input:focus, .contact-form textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 12px rgba(0,229,255,0.15);}
+  .contact-form button{
+    background:var(--accent); color:var(--bg-secondary); border:none; border-radius:999px; padding:13px; font-weight:600;
+    cursor:pointer; box-shadow:0 0 18px var(--glow); transition:all .3s ease;
+  }
+  .contact-form button:hover{transform:scale(1.02); box-shadow:0 0 28px var(--glow);}
+
+  footer{
+    border-top:1px solid var(--border-c); padding:2.5rem 6vw; text-align:center; position:relative; z-index:1;
+  }
+  footer p{font-size:0.85rem; color:var(--text-muted); margin-bottom:.3rem;}
+  .footer-socials{display:flex; justify-content:center; gap:12px; margin-top:1.2rem;}
+
+  @media(max-width:900px){
+    .hero-grid, .about-grid, .contact-grid{grid-template-columns:1fr;}
+    .profile-wrap{order:-1;}
+    .nav-links{display:none;}
+    #hamburger{display:flex;}
+  }
+  @media(prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="logo">TECHNICAL PORTFOLIO<span></span></div>
+  <ul class="nav-links">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#certifications">Certificates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div id="hamburger" aria-label="Open navigation menu" role="button" tabindex="0">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div id="mobile-menu">
+  <a href="#hero">Home</a>
+  <a href="#about">About</a>
+  <a href="#skills">Skills</a>
+  <a href="#experience">Experience</a>
+  <a href="#projects">Projects</a>
+  <a href="#achievements">Achievements</a>
+  <a href="#certifications">Certificates</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="glow-orb" style="width:500px;height:500px;background:#00E5FF;top:-100px;left:-150px;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:#00C8FF;bottom:-100px;right:-100px;"></div>
+  <div class="section-inner hero-grid">
+    <div>
+      <p class="hello-text reveal">Hello, It's Me</p>
+      <h1 class="hero-name reveal">R K GAURAV KUMAR</h1>
+      <p class="hero-role reveal">And I'm an <span class="cyan" id="typed-role"></span><span class="cursor" id="cursor"></span></p>
+      <p class="hero-desc reveal">I'm a third-year Computer Science Engineering student at Sri Venkateswara College of Engineering, passionate about Artificial Intelligence, Machine Learning, Data Science, software development, blockchain, and building scalable solutions to real-world problems.</p>
+
+      <div class="social-row reveal">
+        <a class="social-icon" href="https://github.com/Gklogicmaster" target="_blank" rel="noopener noreferrer" aria-label="Visit my GitHub profile">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A11.51 11.51 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          <span class="tooltip">GitHub</span>
+        </a>
+        <a class="social-icon" href="https://www.linkedin.com/in/gaurav2006/" target="_blank" rel="noopener noreferrer" aria-label="Visit my LinkedIn profile">
+          <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 110-4.13 2.07 2.07 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>
+          <span class="tooltip">LinkedIn</span>
+        </a>
+        <a class="social-icon" href="https://leetcode.com/u/IYCuw1XW2f/" target="_blank" rel="noopener noreferrer" aria-label="Visit my LeetCode profile">
+          <svg viewBox="0 0 24 24"><path d="M13.48 22.5a1.65 1.65 0 01-1.19-.5l-5.6-5.73a3.9 3.9 0 01-1.1-2.7 3.9 3.9 0 011.1-2.71l5.36-5.5a1.65 1.65 0 012.38 0 1.75 1.75 0 010 2.42l-5.36 5.5a.62.62 0 000 .86l5.6 5.73a1.75 1.75 0 010 2.42 1.65 1.65 0 01-1.19.21zM20 14.25H9.87a1.7 1.7 0 010-3.4H20a1.7 1.7 0 010 3.4z"/></svg>
+          <span class="tooltip">LeetCode</span>
+        </a>
+        <a class="social-icon" href="mailto:gauravkumar060930@gmail.com" aria-label="Send me an email">
+          <svg viewBox="0 0 24 24"><path d="M2 4h20a1 1 0 011 1v14a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1zm10 8.5L3.5 6h17L12 12.5zM3 7.9V18h18V7.9l-9 6.4-9-6.4z"/></svg>
+          <span class="tooltip">Email</span>
+        </a>
+      </div>
+
+      <a class="cv-btn reveal" href="https://drive.google.com/file/d/13-iVPjPVUqA89EvOJccPDqJXqUk2qfL7/view?usp=sharing" download>Download CV</a>
+    </div>
+
+    <div class="profile-wrap reveal-right">
+      <div class="profile-frame">
+	<img src="WhatsApp Image 2026-07-15 at 7.45.41 PM.jpeg" alt="R K Gaurav Kumar" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <p class="eyebrow reveal">Get To Know</p>
+    <h2 class="section-title reveal">About <span class="cyan">Me</span></h2>
+    <div class="about-grid">
+      <div class="about-visual reveal-left"><img src="WhatsApp Image 2026-07-15 at 8.34.44 PM.jpeg" alt="R K Gaurav Kumar" /></div>
+      <div class="about-text reveal-right">
+        <p>I'm an aspiring Software Engineer and third-year Computer Science Engineering student at Sri Venkateswara College of Engineering, Chennai.</p>
+        <p>I'm passionate about exploring Artificial Intelligence, Machine Learning, Data Science, Deep Learning, blockchain, software engineering, and emerging technologies.</p>
+        <p>I enjoy transforming ideas into real-world technical projects, participating in hackathons, solving algorithmic problems, and continuously expanding my technical knowledge.</p>
+        <p>My goal is to contribute to scalable and impactful technology solutions while continuously growing as an engineer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="eyebrow reveal">What I Know</p>
+    <h2 class="section-title reveal">My Skills</h2>
+
+    <div class="skills-category reveal">
+      <h3>Programming Languages</h3>
+      <div class="skills-grid">
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/python/00E5FF" alt=""><span>Python</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/c/00E5FF" alt=""><span>C</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/cplusplus/00E5FF" alt=""><span>C++</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/openjdk/00E5FF" alt=""><span>Java</span></div>
+      </div>
+    </div>
+
+    <div class="skills-category reveal">
+      <h3>AI / ML / Data Science</h3>
+      <div class="skills-grid">
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/tensorflow/00E5FF" alt=""><span>TensorFlow</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/pandas/00E5FF" alt=""><span>Pandas</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/numpy/00E5FF" alt=""><span>NumPy</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/scikitlearn/00E5FF" alt=""><span>Scikit-learn</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/jupyter/00E5FF" alt=""><span>Jupyter</span></div>
+      </div>
+    </div>
+
+    <div class="skills-category reveal">
+      <h3>Web Development</h3>
+      <div class="skills-grid">
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/html5/00E5FF" alt=""><span>HTML</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/css3/00E5FF" alt=""><span>CSS</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/react/00E5FF" alt=""><span>React</span></div>
+      </div>
+    </div>
+
+
+    <div class="skills-category reveal">
+      <h3>Blockchain</h3>
+      <div class="skills-grid">
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/solidity/00E5FF" alt=""><span>Solidity</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/ethereum/00E5FF" alt=""><span>Ethereum</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/metamask/00E5FF" alt=""><span>MetaMask</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/ipfs/00E5FF" alt=""><span>IPFS</span></div>
+      </div>
+    </div>
+
+    <div class="skills-category reveal">
+      <h3>Tools</h3>
+      <div class="skills-grid">
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/git/00E5FF" alt=""><span>Git</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/github/00E5FF" alt=""><span>GitHub</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/docker/00E5FF" alt=""><span>Docker</span></div>
+        <div class="skill-card"><img src="https://cdn.simpleicons.org/figma/00E5FF" alt=""><span>Figma</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="eyebrow reveal">Where I've Worked</p>
+    <h2 class="section-title reveal">My Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <h3>Data Scientist Intern</h3>
+          <div class="meta">Network Geek · June 2025 – July 2025 · On-site</div>
+          <ul>
+            <li>Applied Python, NumPy, and Pandas for data preprocessing, cleaning, transformations, and visualization.</li>
+            <li>Explored Machine Learning, Neural Networks, Transformers, Generative AI, and Large Language Models.</li>
+            <li>Gained practical exposure to real-world data workflows.</li>
+            <li>Strengthened analytical thinking and problem-solving abilities.</li>
+          </ul>
+          <div class="tech-pill-row">
+            <span class="tech-pill">Python</span><span class="tech-pill">NumPy</span><span class="tech-pill">Pandas</span>
+            <span class="tech-pill">Machine Learning</span><span class="tech-pill">Neural Networks</span>
+            <span class="tech-pill">Transformers</span><span class="tech-pill">Generative AI</span><span class="tech-pill">LLMs</span>
+          </div>
+          <a class="btn-outline" href="https://drive.google.com/file/d/1VQf6NIx5DKJdylO3J163YAooWNUi-329/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Certificate</a>
+          <a class="btn-outline" href="https://drive.google.com/file/d/1ICS7Mn4ean7KesunP6WlziA0PdgBhGAa/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Experience Letter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="eyebrow reveal">Things I've Built</p>
+    <h2 class="section-title reveal">My Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-img"> <img src="WhatsApp Image 2026-07-15 at 8.49.23 PM.jpeg" alt="R K Gaurav Kumar" /></div>
+        <div class="project-body">
+          <h3>Identity Verification Using Blockchain</h3>
+          <p>A secure and tamper-resistant digital identity verification system using blockchain technology. User identity information is encrypted and stored through decentralized infrastructure, enabling transparent verification while protecting sensitive personal data.</p>
+          <div class="badge">🏆 Special Mention — iCUBE 5.0 Hackathon</div>
+          <div class="tech-pill-row">
+            <span class="tech-pill">Solidity</span><span class="tech-pill">Ethereum</span><span class="tech-pill">MetaMask</span>
+            <span class="tech-pill">IPFS</span><span class="tech-pill">Pinata</span><span class="tech-pill">Node.js</span>
+            <span class="tech-pill">Express</span><span class="tech-pill">Ganache</span>
+          </div>
+          <!--<a class="btn-outline" href="[ADD_GITHUB_REPOSITORY]" target="_blank" rel="noopener noreferrer">GitHub</a> -->
+          <a class="btn-outline" href="WhatsApp Video 2026-07-15 at 11.23.18 PM.mp4" target="_blank" rel="noopener noreferrer">Live Demo</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-img"> <img src="WhatsApp Image 2026-07-15 at 9.16.45 PM.jpeg" alt="R K Gaurav Kumar" /></div>
+        <div class="project-body">
+          <h3>Line Follower Robot</h3>
+          <p>Designed and built an autonomous line-following robot using Arduino, IR sensors, and a motor driver. Implemented real-time sensor-based decision logic for autonomous navigation and optimized motor control and speed through track testing.</p>
+          <div class="badge">🏆 Special Mention — Track Bot</div>
+          <div class="tech-pill-row">
+            <span class="tech-pill">Arduino</span><span class="tech-pill">C/C++</span><span class="tech-pill">IR Sensors</span>
+            <span class="tech-pill">Motor Driver</span><span class="tech-pill">Embedded Systems</span><span class="tech-pill">Robotics</span>
+          </div>
+          <a class="btn-outline" href="WhatsApp Video 2026-07-15 at 8.58.03 PM.mp4" target="_blank" rel="noopener noreferrer">Demo Video</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-img"> <img src="WhatsApp Image 2026-07-15 at 9.08.16 PM.jpeg" alt="R K Gaurav Kumar" /></div>
+        <div class="project-body">
+          <h3>GOAT — Multi-Tenant Academic ERP System</h3>
+          <p>A multi-tenant ERP platform designed to streamline academic institution operations.
+            It centralizes student management, academic workflows, and administrative processes.
+Built to provide scalable, secure, and efficient management for multiple institutions</p>
+          <span class="tech-pill">PostgreSQL</span><span class="tech-pill">ERP System</span><span class="tech-pill">Multi-Tenant</span>
+          <div>
+
+          </div>
+          <div class="badge">Project Concept</div>
+          <div> 
+          </div>
+          <a class="btn-outline" href="https://github.com/Gklogicmaster/MULTI_TENENT_ERP_SYSTEM" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-inner">
+    <p class="eyebrow reveal">Recognitions</p>
+    <h2 class="section-title reveal">Achievements</h2>
+    <div class="ach-grid">
+      <div class="ach-card reveal">
+        <div class="ach-icon">🏆</div>
+        <h3>iCUBE 5.0</h3>
+        <p>Secured a special mention at the iCUBE Hackathon for presenting an innovative blockchain-based identity verification solution, recognized for creativity, technical implementation, and real-world applicability.</p>
+      </div>
+      <div class="ach-card reveal">
+        <div class="ach-icon">🥈</div>
+        <h3>Track Bot</h3>
+        <p>Secured a special mention for building a Line Follower Robot using Arduino, IR sensors, and a motor driver with real-time sensor-based autonomous navigation.</p>
+      </div>
+      <div class="ach-card reveal">
+        <div class="ach-icon">💻</div>
+        <h3>December of Algorithms</h3>
+        <p>Secured a silver certificatein a month-long coding challenge, solving daily programming problems to strengthen problem-solving and algorithmic thinking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-inner">
+    <p class="eyebrow reveal">Verified Learning</p>
+    <h2 class="section-title reveal">Certifications</h2>
+    <div class="cert-grid">
+      <div class="cert-card reveal"><h3>iCUBE 5.0</h3><p class="org">Hackathon Recognition</p><a class="btn-outline" href="https://drive.google.com/file/d/13abpi6HuAQ3F3aUY0dIwgB6jWSw7TBmm/view?usp=drive_link" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>Decode and Deploy</h3><p class="org">Special Mention</p><a class="btn-outline" href="https://drive.google.com/file/d/1ZWzQgicYR5zUv0Ipp0RxrZbPAHE8P0lO/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>Track Bot</h3><p class="org">Robotics Recognition</p><a class="btn-outline" href="https://drive.google.com/file/d/1vViPh04v_xCke3GF9P_fA565rX6GWE8u/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>Commit</h3><p class="org">Technical Event</p><a class="btn-outline" href="https://drive.google.com/file/d/1HZC21OWHwf3uQegg1AcOxjx4kwGmn2zt/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>December of Algorithms</h3><p class="org">Coding Challenge</p><a class="btn-outline" href="https://drive.google.com/file/d/15GDzf8TIIbbYkOlkFlLs6pgzMkh9SGMc/view?usp=drive_link" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>Guinness World Record</h3><p class="org">Microsoft</p><a class="btn-outline" href="https://drive.google.com/file/d/1FmeeSuX7bo-VtBmQWPx1kDR4FEljpsRh/view?usp=drive_link" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>Generative AI for Beginners</h3><p class="org">Great Learning</p><a class="btn-outline" href="https://drive.google.com/file/d/1OCruh0SZYPoT9IvmGqaKH67ldfxB9pqI/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+      <div class="cert-card reveal"><h3>Analytics Showdown</h3><p class="org">KNOW-I</p><a class="btn-outline" href="https://drive.google.com/file/d/1bWkv1q2QqqavvUz2MPtZ7wnsIphLNN6q/view?usp=sharing" target="_blank" rel="noopener noreferrer">View Certificate</a></div>
+    </div>
+  </div>
+</section>
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <p class="eyebrow reveal">Academic Background</p>
+    <h2 class="section-title reveal">Education</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <h3>Bachelor of Computer Science and Engineering</h3>
+          <div class="meta">Sri Venkateswara College of Engineering · Sriperumbudur, Tamil Nadu</div>
+          <p style="font-size:0.9rem;">Expected Graduation: 2028 &nbsp;·&nbsp; CGPA: 8.570</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-card">
+          <h3>Higher Secondary Education</h3>
+          <div class="meta">Velammal Vidyalaya School · Chennai, Tamil Nadu</div>
+          <p style="font-size:0.9rem;">Duration: 2022 – 2024 &nbsp;·&nbsp; Score: 93%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner contact-grid">
+    <div class="reveal-left">
+      <p class="eyebrow">Get In Touch</p>
+      <h2 class="contact-headline">Let's Build Something Meaningful.</h2>
+      <p style="max-width:480px; line-height:1.7; margin-bottom:2rem;">I'm open to internship opportunities, technical collaborations, hackathons, AI/ML projects, software development opportunities, and conversations about innovative technology.</p>
+      <div class="social-row">
+        <a class="social-icon" href="mailto:gauravkumar060930@gmail.com" aria-label="Send me an email">
+          <svg viewBox="0 0 24 24"><path d="M2 4h20a1 1 0 011 1v14a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1zm10 8.5L3.5 6h17L12 12.5zM3 7.9V18h18V7.9l-9 6.4-9-6.4z"/></svg>
+          <span class="tooltip">Email</span>
+        </a>
+        <a class="social-icon" href="https://www.linkedin.com/in/gaurav2006/" target="_blank" rel="noopener noreferrer" aria-label="Visit my LinkedIn profile">
+          <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 110-4.13 2.07 2.07 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg>
+          <span class="tooltip">LinkedIn</span>
+        </a>
+        <a class="social-icon" href="https://github.com/Gklogicmaster" target="_blank" rel="noopener noreferrer" aria-label="Visit my GitHub profile">
+          <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A11.51 11.51 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          <span class="tooltip">GitHub</span>
+        </a>
+        <a class="social-icon" href="https://leetcode.com/u/gaurav2006/" target="_blank" rel="noopener noreferrer" aria-label="Visit my LeetCode profile">
+          <svg viewBox="0 0 24 24"><path d="M13.48 22.5a1.65 1.65 0 01-1.19-.5l-5.6-5.73a3.9 3.9 0 01-1.1-2.7 3.9 3.9 0 011.1-2.71l5.36-5.5a1.65 1.65 0 012.38 0 1.75 1.75 0 010 2.42l-5.36 5.5a.62.62 0 000 .86l5.6 5.73a1.75 1.75 0 010 2.42 1.65 1.65 0 01-1.19.21zM20 14.25H9.87a1.7 1.7 0 010-3.4H20a1.7 1.7 0 010 3.4z"/></svg>
+          <span class="tooltip">LeetCode</span>
+        </a>
+      </div>
+    </div>
+    <form class="contact-form reveal-right" onsubmit="event.preventDefault(); alert('Connect this form to an email service (e.g. Formspree, EmailJS) to receive messages.');">
+      <input type="text" placeholder="Name" required aria-label="Name" />
+      <input type="email" placeholder="Email" required aria-label="Email" />
+      <input type="text" placeholder="Subject" aria-label="Subject" />
+      <textarea rows="5" placeholder="Message" required aria-label="Message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p>Designed &amp; Built by R K Gaurav Kumar</p>
+  <p>© <span id="year"></span> All rights reserved.</p>
+  <p>Built with code, curiosity, and continuous learning.</p>
+  <div class="footer-socials">
+    <a class="social-icon" style="width:36px;height:36px;" href="https://github.com/Gklogicmaster" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 015.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.28 5.69.42.36.78 1.08.78 2.17v3.22c0 .3.21.66.8.55A11.51 11.51 0 0023.5 12C23.5 5.65 18.35.5 12 .5z"/></svg></a>
+    <a class="social-icon" style="width:36px;height:36px;" href="https://www.linkedin.com/in/gaurav2006/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 110-4.13 2.07 2.07 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
+    <a class="social-icon" style="width:36px;height:36px;" href="https://leetcode.com/u/IYCuw1XW2f/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M13.48 22.5a1.65 1.65 0 01-1.19-.5l-5.6-5.73a3.9 3.9 0 01-1.1-2.7 3.9 3.9 0 011.1-2.71l5.36-5.5a1.65 1.65 0 012.38 0 1.75 1.75 0 010 2.42l-5.36 5.5a.62.62 0 000 .86l5.6 5.73a1.75 1.75 0 010 2.42 1.65 1.65 0 01-1.19.21zM20 14.25H9.87a1.7 1.7 0 010-3.4H20a1.7 1.7 0 010 3.4z"/></svg></a>
+    <a class="social-icon" style="width:36px;height:36px;" href="mailto:gauravkumar060930@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M2 4h20a1 1 0 011 1v14a1 1 0 01-1 1H2a1 1 0 01-1-1V5a1 1 0 011-1zm10 8.5L3.5 6h17L12 12.5zM3 7.9V18h18V7.9l-9 6.4-9-6.4z"/></svg></a>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// NAVBAR scroll state
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+document.querySelectorAll('#mobile-menu a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+// Active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navAnchors = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 140;
+    if (window.scrollY >= top) current = sec.getAttribute('id');
+  });
+  navAnchors.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// Typing animation for role
+const roles = ["AI/ML Enthusiast","Data Science Explorer","Software Developer","Problem Solver"];
+const el = document.getElementById('typed-role');
+let ri = 0, ci = 0, deleting = false;
+function typeLoop(){
+  const word = roles[ri];
+  if(!deleting){
+    ci++;
+    el.textContent = word.slice(0, ci);
+    if(ci === word.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+  } else {
+    ci--;
+    el.textContent = word.slice(0, ci);
+    if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+  }
+  setTimeout(typeLoop, deleting ? 40 : 80);
+}
+typeLoop();
+
+// Scroll reveal with stagger for groups
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if(entry.isIntersecting){
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
